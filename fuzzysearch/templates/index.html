@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<title>Fuzzy Search</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+			    // $("#btnSearch1").click(function(){
+		    	$("form").submit(function(e){
+		    		e.preventDefault();
+				    var form = $(this);
+				    var val = $("#txtSearch").val();
+				    if(val == ""){
+					    alert("Please enter a word to search...");
+				    } else {
+				    	var get_url = "{% url 'search' '999999999' %}";
+				    	get_url = get_url.replace("999999999", val)
+				    	var data = {"query": val}
+				    	$.ajax({
+						  url: get_url,
+						  type: "get", //send it through get method
+						  //data: data,
+						  success: function(response) {
+						    //Do Something
+
+						    $('#divResult').html(response.result.toString().replace(/\,/g, "<br/>"));
+						  },
+						  error: function(xhr) {
+						    console.log(xhr);
+						  }
+						});
+				    }
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<form method="GET" action="pooy/">
+			{% csrf_token %}
+			<input type="text" id="txtSearch">
+			<button type="submit" id="btnSearch" onclick="">Search</button>
+		</form>
+		<div id="divResult">
+
+		</div>
+	</body>
+</html>
