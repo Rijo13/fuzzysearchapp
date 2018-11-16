@@ -125,6 +125,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-# import pdb; pdb.set_trace()
 
-
+# path to the tsv file
+TSV_FILE_LOCATION = 'E:\\djangoapps\\fuzzysearchapp\\word_search.tsv'
