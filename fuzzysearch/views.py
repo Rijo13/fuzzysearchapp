@@ -50,18 +50,16 @@ def index(request):
         query_param = request.POST.get('word', '')
 
         result = []
-        count = 0
-        if len(query_param)>=3:
+        if len(query_param)>0:
             result = fuzzy_search(query=query_param)
-        else:
-            assert(query_param, 'Query param word shoud not empty!')
+            
+        # assert(query_param, 'Query param word shoud not empty!')
 
         if not result:
             result += ['No result!']
 
         data = {
             "query_param": query_param,
-            "search_count": count,
             "result": result ,
         }
         # return json respone
@@ -74,7 +72,7 @@ def auto_complete(request):
     data = {}
     result = []
     query_param = request.GET.get('word', '')
-    if len(query_param)>=3:
+    if len(query_param)>0:
         result = fuzzy_search(query=query_param, starts_with=True, max_result=5)
 
     data["result"] = result

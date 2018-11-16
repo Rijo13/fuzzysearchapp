@@ -127,4 +127,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # path to the tsv file
-TSV_FILE_LOCATION = 'E:\\djangoapps\\fuzzysearchapp\\word_search.tsv'
+TSV_FILE_LOCATION = 'E:\\____Rijo_bkp_Aug_2017\\DevelopmentNew\\djangoapps\\fuzzysearchapp\\word_search.tsv'
