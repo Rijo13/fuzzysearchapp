@@ -4,43 +4,41 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
-			    // $("#btnSearch1").click(function(){
-		    	$("form").submit(function(e){
-		    		e.preventDefault();
-				    var form = $(this);
+			    $("#btnSearch").click(function(){
 				    var val = $("#txtSearch").val();
 				    if(val == ""){
 					    alert("Please enter a word to search...");
 				    } else {
-				    	var get_url = "{% url 'search' '999999999' %}";
-				    	get_url = get_url.replace("999999999", val)
-				    	var data = {"query": val}
+				    	var serach_url = "{% url 'index' %}";
+				    	var data = {
+				    		'word': val, 
+				    		'csrfmiddlewaretoken': '{{ csrf_token }}',
+				    	}
 				    	$.ajax({
-						  url: get_url,
-						  type: "get", //send it through get method
-						  //data: data,
+						  'url': serach_url,
+						  'type': "post", 
+						  // 'contentType': 'application/json',
+						  'data': data,
 						  success: function(response) {
-						    //Do Something
-
-						    $('#divResult').html(response.result.toString().replace(/\,/g, "<br/>"));
+						  	var result = response.result.toString().replace(/\,/g, "<br/>");
+						    $('#divResult').html("<b>Search result:</b> <br>" + result);
 						  },
-						  error: function(xhr) {
-						    console.log(xhr);
+						  error: function(xhr, ajaxOptions, thrownError) {
+						    console.log("<b>Error:</b> " + thrownError);
+						    debugger;
 						  }
 						});
-				    }
-				});
+				    } // end else
+				}); // end btnSearch click
 			});
 		</script>
 	</head>
 	<body>
-		<form method="GET" action="pooy/">
+		<form method="POST" action="">
 			{% csrf_token %}
-			<input type="text" id="txtSearch">
-			<button type="submit" id="btnSearch" onclick="">Search</button>
+			<input type="text" id="txtSearch" value="">
+			<button type="button" id="btnSearch" onclick="">Search</button>
 		</form>
-		<div id="divResult">
-
-		</div>
+		<div id="divResult"></div>
 	</body>
 </html>

@@ -51,10 +51,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'fuzzysearchapp.urls'
 
-# fuzzy_search_templates = os.path.join(os.path.join(os.path.dirname(BASE_DIR), "fuzzysearchapp"), "fuzzysearch")
+# get template folders and add to TEMPLATES
 project_templates = os.path.join(os.path.dirname(BASE_DIR), "fuzzysearchapp")
 fuzzy_search_templates = os.path.join(os.path.dirname(project_templates), "fuzzysearch", "templates")
-# import pdb; pdb.set_trace() # os.path.exists #os.path.isdir
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -125,16 +125,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# import pdb; pdb.set_trace()
 
-
-# Find templates in the same folder as settings.py.
-TEMPLATE_DIRS = (
-    fuzzy_search_templates,
-)
-
-# # List of callables that know how to import templates from various sources.
-# TEMPLATE_LOADERS = (
-#     'django.template.loaders.filesystem.Loader',
-#     'django.template.loaders.fuzzysearch.Loader',
-# )
 

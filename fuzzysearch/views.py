@@ -1,24 +1,42 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import csv
 
+@csrf_exempt
 def index(request):
+    data = {}
+    
+    if request.method == "POST":
+        query_param = request.POST.get('word', '')
 
-	context = {}
-	# import pdb; pdb.set_trace()
-	import os
-	print("current working directory = ", os.getcwd())
-	print("is index.html exists in fuzzysearch directory = ", os.path.isfile('fuzzysearch/index.html'))
+        result = []
+        count = 0
+        if query_param:
+            filename = 'E:\\____Rijo_bkp_Aug_2017\\DevelopmentNew\\djangoapps\\fuzzysearchapp\\word_search.tsv'
+            with open(filename, "r") as csvfile:
+                datareader = csv.reader(csvfile, delimiter='\t')
+                for row in datareader:
+                    count += 1
+                    if query_param in row[0]:
+                        result += [row[0] + "  " + row[1]]
 
-	return render(request, 'fuzzysearch/templates/index.html', context=context)
+                    if len(result) >= 25:
+                        break
+        else:
+            assert(query_param, 'Query param word shoud not empty!')
 
-def search(request, word):
-	query_param = request.GET.get('query', '')
-	data = {
-		"status": "true",
-		"result": [query_param, 1,2,3,4,5] 
-	}
-	# import json
-	# data = json.dumps(data)
-	return JsonResponse(data, safe=False)
+        if not result:
+            result += ['No result!']
+
+        data = {
+            "query_param": query_param,
+            "search_count": count,
+            "result": result ,
+        }
+        return JsonResponse(data, safe=False)
+
+
+    return render(request, 'fuzzysearch/templates/index.html', context=data)
 
